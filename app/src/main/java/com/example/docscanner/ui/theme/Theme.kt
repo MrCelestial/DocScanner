@@ -1,7 +1,6 @@
 package com.example.docscanner.ui.theme
 
 import android.app.Activity
-import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
@@ -10,31 +9,47 @@ import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
 
-private val DarkColorScheme = darkColorScheme(
-    primary = Purple80,
-    secondary = PurpleGrey80,
-    tertiary = Pink80
+val BlueLagoonLight = lightColorScheme(
+    primary = Color(0xFF0097A7),
+    onPrimary = Color(0xFFFFFFFF),
+    background = Color(0xFFFFFFFF),
+    onBackground = Color(0xFF000000),
+    surface = Color(0xFFF5F5F5),
+    onSurface = Color(0xFF000000),
+
 )
 
-private val LightColorScheme = lightColorScheme(
-    primary = Purple40,
-    secondary = PurpleGrey40,
-    tertiary = Pink40
+val SunsetLight = lightColorScheme(
+    primary = Color(0xFFFF5722),
+    onPrimary = Color(0xFFFFFFFF),
+    background = Color(0xFFFFFFF0),
+    onBackground = Color(0xFF000000),
+    surface = Color(0xFFFFF8DC),
+    onSurface = Color(0xFF000000)
+)
 
-    /* Other default colors to override
-    background = Color(0xFFFFFBFE),
-    surface = Color(0xFFFFFBFE),
-    onPrimary = Color.White,
-    onSecondary = Color.White,
-    onTertiary = Color.White,
-    onBackground = Color(0xFF1C1B1F),
-    onSurface = Color(0xFF1C1B1F),
-    */
+val NightSkyDark = darkColorScheme(
+    primary = Color(0xFF311B92),
+    onPrimary = Color(0xFFFFFFFF),
+    background = Color(0xFF121212),
+    onBackground = Color(0xFFFFFFFF),
+    surface = Color(0xFF121212),
+    onSurface = Color(0xFFFFFFFF)
+)
+
+val ForestNightDark = darkColorScheme(
+    primary = Color(0xFF1B5E20),
+    onPrimary = Color(0xFFFFFFFF),
+    background = Color(0xFF121212),
+    onBackground = Color(0xFFFFFFFF),
+    surface = Color(0xFF121212),
+    onSurface = Color(0xFFFFFFFF)
 )
 
 @Composable
@@ -45,13 +60,13 @@ fun DocScannerTheme(
     content: @Composable () -> Unit
 ) {
     val colorScheme = when {
-        dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
+        dynamicColor -> {
             val context = LocalContext.current
             if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
         }
 
-        darkTheme -> DarkColorScheme
-        else -> LightColorScheme
+        darkTheme -> ForestNightDark
+        else -> BlueLagoonLight
     }
     val view = LocalView.current
     if (!view.isInEditMode) {
@@ -63,8 +78,8 @@ fun DocScannerTheme(
     }
 
     MaterialTheme(
-        colorScheme = colorScheme,
+        colorScheme = if (isSystemInDarkTheme()) ForestNightDark else BlueLagoonLight,
         typography = Typography,
-        content = content
+        content = content,
     )
 }
